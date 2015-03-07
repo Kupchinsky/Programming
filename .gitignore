@@ -1,0 +1,8 @@
+*.exe
+*.o
+*.docx
+*.doc
+*.pro.user
+deployment.pri
+Makefile
+Makefile.*

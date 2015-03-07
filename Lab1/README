@@ -1,0 +1,12 @@
+Создать класс списка
+
+Методы:
+- pushFirst
+- deleteFirst
+- pushLast
+- deleteLast
+- calculateSize
+- calculateSizeRecursive
+- deleteMostGreaterNode
+- mergeLists
+- print
