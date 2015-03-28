@@ -1,5 +1,3 @@
-#include "list.hpp"
-
 template <typename T>
 List<T>::List(ListNode *_firstNode): firstNode(_firstNode), notClear(false)
 {

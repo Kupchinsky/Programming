@@ -5,9 +5,6 @@
 #include <iostream>
 #include <ostream>
 
-#define _QUEUE_TYPE int
-
-
 enum class QueueExceptionCause
 {
     HeadNotFound
@@ -39,11 +36,12 @@ public:
     }
 };
 
+template <typename T>
 class Queue
 {
     struct QueueNode
     {
-        _QUEUE_TYPE item;
+        T item;
         QueueNode *nextNode;
     };
 
@@ -52,11 +50,13 @@ public:
     Queue();
     ~Queue();
 
-    void add(_QUEUE_TYPE);
-    _QUEUE_TYPE poll();
-    _QUEUE_TYPE peek();
+    void add(T);
+    T poll();
+    T peek();
 
     unsigned int size();
 };
+
+#include "queue.tpp"
 
 #endif // QUEUE_HPP

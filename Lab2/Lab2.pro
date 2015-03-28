@@ -4,7 +4,8 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += main.cpp \
-    queue.cpp
+    queue.cpp \
+    ../Lab1/list.cpp
 
 HEADERS += \
     queue.hpp
