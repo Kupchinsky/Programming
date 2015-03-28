@@ -7,7 +7,7 @@ using namespace std;
 
 int main()
 {
-    List *test1 = new List(), *test2 = new List();
+    List<int> *test1 = new List<int>(), *test2 = new List<int>();
 
     /* Test 1: [1 - 10] */
     out("::test1::" << endl);
@@ -60,7 +60,7 @@ int main()
 #define bla3
 #ifdef bla3
     /* Работа с test1, test2 */
-    List *test3 = test1->mergeLists(test2);
+    List<int> *test3 = test1->mergeLists(test2);
 
     out(endl << "::test3::" << endl);
 

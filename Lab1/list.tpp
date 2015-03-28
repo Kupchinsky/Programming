@@ -1,14 +1,17 @@
 #include "list.hpp"
 
-List::List(ListNode *_firstNode): firstNode(_firstNode), notClear(false)
+template <typename T>
+List<T>::List(ListNode *_firstNode): firstNode(_firstNode), notClear(false)
 {
 }
 
-List::List(): firstNode(NULL), notClear(false)
+template <typename T>
+List<T>::List(): firstNode(NULL), notClear(false)
 {
 }
 
-List::~List()
+template <typename T>
+List<T>::~List()
 {
     if (this->firstNode == NULL || this->notClear)
         return;
@@ -25,12 +28,14 @@ List::~List()
     while (currentNode != NULL);
 }
 
-List::ListNode* List::getFirstNode()
+template <typename T>
+typename List<T>::ListNode* List<T>::getFirstNode()
 {
     return this->firstNode;
 }
 
-void List::pushFirst(_LIST_TYPE newItem)
+template <typename T>
+void List<T>::pushFirst(T newItem)
 {
     ListNode *newNode = new ListNode;
 
@@ -40,7 +45,8 @@ void List::pushFirst(_LIST_TYPE newItem)
     this->firstNode = newNode;
 }
 
-void List::deleteFirst()
+template <typename T>
+void List<T>::deleteFirst()
 {
     if (this->firstNode == NULL)
         throw ListException(ListExceptionCause::ElementsNotFound);
@@ -51,7 +57,8 @@ void List::deleteFirst()
     this->firstNode = nextNode;
 }
 
-void List::pushLast(_LIST_TYPE newItem)
+template <typename T>
+void List<T>::pushLast(T newItem)
 {
     ListNode *lastNode = this->firstNode;
 
@@ -73,7 +80,8 @@ void List::pushLast(_LIST_TYPE newItem)
         this->firstNode = newNode;
 }
 
-void List::deleteLast()
+template <typename T>
+void List<T>::deleteLast()
 {
     ListNode *lastNode = this->firstNode, *prevNode = NULL;
 
@@ -91,7 +99,8 @@ void List::deleteLast()
     }
 }
 
-unsigned int List::calculateSize()
+template <typename T>
+unsigned int List<T>::calculateSize()
 {
     if (this->firstNode == NULL)
         return 0;
@@ -109,17 +118,20 @@ unsigned int List::calculateSize()
     return returnSize;
 }
 
-unsigned int List::calculateSizeRecursive()
+template <typename T>
+unsigned int List<T>::calculateSizeRecursive()
 {
     return this->_calculateSizeRecursive(*this->firstNode);
 }
 
-unsigned int List::_calculateSizeRecursive(ListNode current)
+template <typename T>
+unsigned int List<T>::_calculateSizeRecursive(ListNode current)
 {
     return (current.nextNode == NULL ? 1 : this->_calculateSizeRecursive(*current.nextNode) + 1);
 }
 
-void List::deleteMostGreaterNode()
+template <typename T>
+void List<T>::deleteMostGreaterNode()
 {
     if (this->firstNode == NULL)
         throw ListException(ListExceptionCause::ElementsNotFound);
@@ -149,7 +161,8 @@ void List::deleteMostGreaterNode()
     delete savedNode;
 }
 
-void List::swapNodes(unsigned int index1, unsigned int index2)
+template <typename T>
+void List<T>::swapNodes(unsigned int index1, unsigned int index2)
 {
     ListNode *firstNode = this->getNode(index1);
     ListNode *secondNode = this->getNode(index2);
@@ -194,7 +207,8 @@ void List::swapNodes(unsigned int index1, unsigned int index2)
     }
 }
 
-List* List::mergeLists(List *secondList)
+template <typename T>
+List<T>* List<T>::mergeLists(List *secondList)
 {
     if (this->firstNode == NULL || secondList->getFirstNode() == NULL)
         throw ListException(ListExceptionCause::ElementsNotFound);
@@ -235,7 +249,8 @@ List* List::mergeLists(List *secondList)
     return createdList;
 }
 
-void List::deleteNode(ListNode* node)
+template <typename T>
+void List<T>::deleteNode(ListNode* node)
 {
     if (node == this->firstNode)
         this->firstNode = node->nextNode;
@@ -265,7 +280,8 @@ void List::deleteNode(ListNode* node)
     delete node;
 }
 
-void List::print(std::ostream *os)
+template <typename T>
+void List<T>::print(std::ostream *os)
 {
     if (this->firstNode == NULL)
         throw ListException(ListExceptionCause::ElementsNotFound);
@@ -280,12 +296,14 @@ void List::print(std::ostream *os)
     while (currentNode != NULL);
 }
 
-void List::noClear()
+template <typename T>
+void List<T>::noClear()
 {
     this->notClear = true;
 }
 
-List::ListNode* List::getNode(unsigned int index)
+template <typename T>
+typename List<T>::ListNode* List<T>::getNode(unsigned int index)
 {
     ListNode* lastNode = this->firstNode;
     unsigned int i = 0;
@@ -300,12 +318,14 @@ List::ListNode* List::getNode(unsigned int index)
     return lastNode;
 }
 
-_LIST_TYPE List::get(unsigned int index)
+template <typename T>
+T List<T>::get(unsigned int index)
 {
     return this->getNode(index)->item;
 }
 
-_LIST_TYPE List::first()
+template <typename T>
+T List<T>::first()
 {
     if (this->firstNode == NULL)
         throw ListException(ListExceptionCause::ElementsNotFound);
@@ -313,7 +333,8 @@ _LIST_TYPE List::first()
     return this->firstNode->item;
 }
 
-_LIST_TYPE List::last()
+template <typename T>
+T List<T>::last()
 {
     if (this->firstNode == NULL)
         throw ListException(ListExceptionCause::ElementsNotFound);

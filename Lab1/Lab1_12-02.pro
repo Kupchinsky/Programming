@@ -4,7 +4,7 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += main.cpp \
-    list.cpp
+    list.tpp
 
 include(deployment.pri)
 qtcAddDeployment()

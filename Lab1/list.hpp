@@ -5,10 +5,6 @@
 #include <iostream>
 #include <ostream>
 
-#ifndef _LIST_TYPE
-#define _LIST_TYPE int
-#endif
-
 enum class ListExceptionCause
 {
     ElementNotFound,
@@ -41,11 +37,12 @@ public:
     }
 };
 
+template <typename T>
 class List
 {
     struct ListNode
     {
-        _LIST_TYPE item;
+        T item;
         ListNode *nextNode;
     };
 
@@ -63,41 +60,43 @@ public:
 
     void swapNodes(unsigned int index1, unsigned int index2);
 
-	// 2.1. Напишите функцию, вставляющую узел в начало связанного списка и функцию, удаляющую этот узел.
-    void pushFirst(_LIST_TYPE);
+    // 2.1. Напишите функцию, вставляющую узел в начало связанного списка и функцию, удаляющую этот узел.
+    void pushFirst(T);
     void deleteFirst();
-	//
+    //
 
     void deleteNode(ListNode*);
 
-	// 2.2. Повторите предыдущее задание, на этот раз вставляя и удаляя не первый, а последний элемент списка.
-	// 2.3. Повторите предыдущее задание, считая что существуют указатели на голову и хвост списка.
-    void pushLast(_LIST_TYPE);
+    // 2.2. Повторите предыдущее задание, на этот раз вставляя и удаляя не первый, а последний элемент списка.
+    // 2.3. Повторите предыдущее задание, считая что существуют указатели на голову и хвост списка.
+    void pushLast(T);
     void deleteLast();
-	//
+    //
 
-    _LIST_TYPE get(unsigned int index);
-    _LIST_TYPE first();
-    _LIST_TYPE last();
+    T get(unsigned int index);
+    T first();
+    T last();
 
-	// 3. Напишите функцию для подсчета количества узлов в связанном списке.
-	// 3.1. Итеративно.
+    // 3. Напишите функцию для подсчета количества узлов в связанном списке.
+    // 3.1. Итеративно.
     unsigned int calculateSize();
-	//
+    //
 
-	// 3.2. Рекурсивно.
+    // 3.2. Рекурсивно.
     unsigned int calculateSizeRecursive();
-	//
+    //
 
-	// 4. Напишите функцию для удаления узла, содержащего наибольшее целое число, из связанного списка целых чисел.
+    // 4. Напишите функцию для удаления узла, содержащего наибольшее целое число, из связанного списка целых чисел.
     void deleteMostGreaterNode();
-	//
+    //
 
-	// Слияние упорядоченных списков
+    // Слияние упорядоченных списков
     List* mergeLists(List*);
-	//
+    //
 
     void print(std::ostream*);
 };
+
+#include "list.tpp"
 
 #endif // LIST_HPP
