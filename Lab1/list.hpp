@@ -5,7 +5,9 @@
 #include <iostream>
 #include <ostream>
 
+#ifndef _LIST_TYPE
 #define _LIST_TYPE int
+#endif
 
 enum class ListExceptionCause
 {
