@@ -4,14 +4,7 @@
 
 using namespace std;
 
-#define _DEBUG 0
 #define out(x) wcout << x << endl
-
-#if _DEBUG > 0
-#define trace(x) wcout << "     " << x << endl
-#else
-#define trace(x)
-#endif
 
 struct Visitor
 {
@@ -39,14 +32,14 @@ int main()
     int
             currentTime = 0,   // Текущее время
             nextTime = 0,      // Следующее время отбытия посетителя
-            waitTime = 0,      // Общее время ожидания
+            waitTime = 0,      // Время ожидания конкретного посетителя
+            allWaitTime = 0,   // Общее время ожидания
+            waitVisitors = 0, // Количество посетителей, которые ожидали очередь
             visitorsCount = 0; // Количество посетителей
 
     while (visitors->size() > 0 || arrivedVisitors->size() > 0)
     {
         currentTime++;
-
-        trace(L"Текущее время: " << currentTime);
 
         // Прибытие
         if (visitors->size() > 0 && visitors->peek().timeArrive == currentTime) // Время прибытия равно текущему времени
@@ -65,37 +58,40 @@ int main()
         // Отбытие
         if (arrivedVisitors->size() > 0)
         {
-            trace(L"Очередь не пустая, проверяем");
             Visitor current = arrivedVisitors->peek();
+            bool minusOne = true;
 
             if (nextTime + current.duration == currentTime)
             {
                 nextTime += current.duration;
-                trace("nextTime = " << nextTime);
-
                 arrivedVisitors->poll(); // Удаляем посетителя
 
                 out(L"Обработка отбытия в момент: " << currentTime);
-            }
-            else
-                trace(L"Посетитель отбудет в момент времени " << nextTime);
+                out(L"Кто-то ещё ждал: " << waitTime);
 
-            //if (arrivedVisitors->size() > 1)
-            //    waitTime++;
+                if (waitTime > 0)
+                {
+                    out(L"Ждало: " << arrivedVisitors->size());
+                    waitVisitors += arrivedVisitors->size();
+                    allWaitTime += waitTime;
+                }
+
+                waitTime = 0;
+                minusOne = false;
+            }
+
+            waitTime += arrivedVisitors->size() - (minusOne ? 1 : 0);
         }
         else
         {
             if (nextTime > 0) // Посетители отсутствуют, но время следующего не сброшено
-            {
                 nextTime = 0; // Время отбытия обнуляем
-                trace("nextTime = 0");
-            }
         }
     }
 
     out(L"Конец моделирования" << endl
         << L"   Общее количество посетителей: " << visitorsCount << endl
-        << L"   Среднее время ожидания в очереди: " << waitTime);
+        << L"   Среднее время ожидания в очереди: " << allWaitTime - 1 << " " << waitVisitors);
 
     return 0;
 }
