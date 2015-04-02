@@ -32,7 +32,6 @@ int main()
     int
             currentTime = 0,   // Текущее время
             nextTime = 0,      // Следующее время отбытия посетителя
-            waitTime = 0,      // Время ожидания конкретного посетителя
             allWaitTime = 0,   // Общее время ожидания
             visitorsCount = 0; // Количество посетителей
 
@@ -65,19 +64,10 @@ int main()
                 arrivedVisitors->poll(); // Удаляем посетителя
 
                 out(L"Обработка отбытия в момент: " << currentTime);
-                out(L"Кто-то ещё ждал: " << waitTime);
-
-                if (waitTime > 0)
-                {
-                    out(L"Ждало: " << arrivedVisitors->size());
-                    allWaitTime += waitTime;
-                }
-
-                waitTime = 0;
             }
 
             if (arrivedVisitors->size() > 0)
-                waitTime += arrivedVisitors->size() - 1;
+                allWaitTime += arrivedVisitors->size() - 1;
         }
         else
         {
