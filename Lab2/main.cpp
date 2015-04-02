@@ -34,7 +34,6 @@ int main()
             nextTime = 0,      // Следующее время отбытия посетителя
             waitTime = 0,      // Время ожидания конкретного посетителя
             allWaitTime = 0,   // Общее время ожидания
-            waitVisitors = 0, // Количество посетителей, которые ожидали очередь
             visitorsCount = 0; // Количество посетителей
 
     while (visitors->size() > 0 || arrivedVisitors->size() > 0)
@@ -59,7 +58,6 @@ int main()
         if (arrivedVisitors->size() > 0)
         {
             Visitor current = arrivedVisitors->peek();
-            bool minusOne = true;
 
             if (nextTime + current.duration == currentTime)
             {
@@ -72,15 +70,14 @@ int main()
                 if (waitTime > 0)
                 {
                     out(L"Ждало: " << arrivedVisitors->size());
-                    waitVisitors += arrivedVisitors->size();
                     allWaitTime += waitTime;
                 }
 
                 waitTime = 0;
-                minusOne = false;
             }
 
-            waitTime += arrivedVisitors->size() - (minusOne ? 1 : 0);
+            if (arrivedVisitors->size() > 0)
+                waitTime += arrivedVisitors->size() - 1;
         }
         else
         {
@@ -91,7 +88,7 @@ int main()
 
     out(L"Конец моделирования" << endl
         << L"   Общее количество посетителей: " << visitorsCount << endl
-        << L"   Среднее время ожидания в очереди: " << allWaitTime - 1 << " " << waitVisitors);
+        << L"   Среднее время ожидания в очереди: " << allWaitTime / (float) visitorsCount);
 
     return 0;
 }
