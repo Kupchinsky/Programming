@@ -66,8 +66,8 @@ int main()
                 out(L"Обработка отбытия в момент: " << currentTime);
             }
 
-            if (arrivedVisitors->size() > 0)
-                allWaitTime += arrivedVisitors->size() - 1;
+            if (arrivedVisitors->size() > 1) // Есть ожидающие посетители
+                allWaitTime += arrivedVisitors->size() - 1; // Прибавляем общее время ожидания, не считая того, кто обслуживается
         }
         else
         {
