@@ -3,8 +3,10 @@ CONFIG += console
 CONFIG -= app_bundle
 CONFIG -= qt
 
-SOURCES += main.cpp
+SOURCES += main.cpp \
+    binarytree.cpp
 
-HEADERS +=
+HEADERS += \
+    binarytree.hpp
 
 QMAKE_CXXFLAGS += -std=c++11
