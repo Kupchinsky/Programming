@@ -6,7 +6,6 @@ void BinaryTree::push(Node* &root, int newval)
     {
         root = new Node;
 
-        root->height = 1;
         root->item = newval;
         root->left = NULL;
         root->right = NULL;
@@ -17,8 +16,6 @@ void BinaryTree::push(Node* &root, int newval)
             push(root->left, newval);
         else if(newval > root->item)
             push(root->right, newval);
-
-        root->height++;
     }
 }
 
@@ -83,6 +80,24 @@ int BinaryTree::max(Node *root)
     return root->right != NULL ? max(root->right) : root->item;
 }
 
+Node* BinaryTree::find(Node *root, int item)
+{
+    if (root == NULL)
+        return NULL;
+
+    if (root->item == item)
+        return root;
+    else
+    {
+        Node *child = find(root->left, item);
+
+        if (child == NULL)
+            child = find(root->right, item);
+
+        return child;
+    }
+}
+
 unsigned int BinaryTree::size(Node *root)
 {
     if (root == NULL)
@@ -101,7 +116,18 @@ unsigned int BinaryTree::size(Node *root)
 
 unsigned int BinaryTree::height(Node *root)
 {
-    return root != NULL ? root->height : 0;
+    if (root == NULL)
+        return 0;
+
+    int h1 = 0, h2 = 0;
+
+    if (root->left != NULL)
+        h1 = height(root->left);
+
+    if (root->right != NULL)
+        h2 = height(root->right);
+
+    return std::max(h1, h2) + 1;
 }
 
 BinaryTree::BinaryTree(): root(NULL)
@@ -142,6 +168,17 @@ int BinaryTree::summ()
 float BinaryTree::average()
 {
     return summ() / (float)size();
+}
+
+bool BinaryTree::isChild(int parent, int child)
+{
+    Node *parentNode = find(root, parent);
+    return parentNode != NULL && (find(parentNode, child) != NULL);
+}
+
+bool BinaryTree::find(int item)
+{
+    return find(root, item) != NULL;
 }
 
 unsigned int BinaryTree::size()

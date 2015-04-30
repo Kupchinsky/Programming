@@ -27,9 +27,15 @@ int main()
 
     out(L"Размер дерева: " << mytree->size());
     out(L"Сумма: " << mytree->summ());
-    out(L"Среднее: " << mytree->average());
+    out(L"Среднее значение: " << mytree->average());
     out(L"Макс. значение: " << mytree->max());
     out(L"Высота: " << mytree->height());
+
+    int parent = 3, child = 2;
+    out(L"Является ли предком числа " << child << L" число " << parent << ": " << (mytree->isChild(parent, child) ? L"Да" : L"Нет"));
+
+    int find = 4;
+    out(L"Есть ли в дереве число " << find << ": " << (mytree->find(find) ? L"Да" : L"Нет"));
 
     delete mytree;
     return 0;
