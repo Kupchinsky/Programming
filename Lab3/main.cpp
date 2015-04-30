@@ -5,6 +5,7 @@
 using namespace std;
 
 #define out(x) wcout << x << endl
+#define strbool(x) (x ? L"Да" : L"Нет")
 
 int main()
 {
@@ -12,7 +13,16 @@ int main()
 
     BinaryTree *mytree = new BinaryTree();
 
+    // Заполненное
     mytree->push(10);
+    mytree->push(13);
+    mytree->push(12);
+    mytree->push(14);
+    mytree->push(8);
+    mytree->push(7);
+    mytree->push(9);
+
+   /* mytree->push(10);
     mytree->push(11);
     mytree->push(12);
     mytree->push(25);
@@ -22,7 +32,7 @@ int main()
     mytree->push(4);
     mytree->push(6);
     mytree->push(9);
-    mytree->push(8);
+    mytree->push(8);*/
     mytree->print();
 
     out(L"Размер дерева: " << mytree->size());
@@ -32,10 +42,12 @@ int main()
     out(L"Высота: " << mytree->height());
 
     int parent = 3, child = 2;
-    out(L"Является ли предком числа " << child << L" число " << parent << ": " << (mytree->isChild(parent, child) ? L"Да" : L"Нет"));
+    out(L"Является ли предком числа " << child << L" число " << parent << ": " << strbool(mytree->isChild(parent, child)));
 
     int find = 4;
-    out(L"Есть ли в дереве число " << find << ": " << (mytree->find(find) ? L"Да" : L"Нет"));
+    out(L"Есть ли в дереве число " << find << ": " << strbool(mytree->find(find)));
+
+    out(L"Заполнено ли дерево: " << strbool(mytree->isFilled()));
 
     delete mytree;
     return 0;

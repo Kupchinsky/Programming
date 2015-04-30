@@ -23,6 +23,7 @@ class BinaryTree
     int summ(Node *);
     int max(Node *);
     Node* find(Node *, int);
+    unsigned int findLeafes(Node*);
     unsigned int size(Node *);
     unsigned int height(Node *);
 
@@ -38,6 +39,7 @@ public:
     float average();
     bool isChild(int, int);
     bool find(int);
+    bool isFilled();
     unsigned int size();
     unsigned int height();
 };

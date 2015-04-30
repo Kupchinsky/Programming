@@ -1,4 +1,5 @@
 #include "binarytree.hpp"
+#include <cmath>
 
 void BinaryTree::push(Node* &root, int newval)
 {
@@ -77,7 +78,7 @@ int BinaryTree::summ(Node *root)
 
 int BinaryTree::max(Node *root)
 {
-    return root->right != NULL ? max(root->right) : root->item;
+    return root != NULL ? (root->right != NULL ? max(root->right) : root->item) : 0;
 }
 
 Node* BinaryTree::find(Node *root, int item)
@@ -96,6 +97,24 @@ Node* BinaryTree::find(Node *root, int item)
 
         return child;
     }
+}
+
+unsigned int BinaryTree::findLeafes(Node *root)
+{
+    if (root == NULL)
+        return 0;
+    else if (root->left == NULL && root->right == NULL)
+        return 1;
+
+    unsigned int count = 0;
+
+    if (root->left != NULL)
+        count += findLeafes(root->left);
+
+    if (root->right != NULL)
+        count += findLeafes(root->right);
+
+    return count;
 }
 
 unsigned int BinaryTree::size(Node *root)
@@ -136,7 +155,7 @@ BinaryTree::BinaryTree(): root(NULL)
 
 BinaryTree::~BinaryTree()
 {
-    clear(this->root);
+    clear();
 }
 
 void BinaryTree::clear()
@@ -167,7 +186,8 @@ int BinaryTree::summ()
 
 float BinaryTree::average()
 {
-    return summ() / (float)size();
+    unsigned int _size = size();
+    return _size != 0 ? summ() / (float)_size : 0;
 }
 
 bool BinaryTree::isChild(int parent, int child)
@@ -179,6 +199,11 @@ bool BinaryTree::isChild(int parent, int child)
 bool BinaryTree::find(int item)
 {
     return find(root, item) != NULL;
+}
+
+bool BinaryTree::isFilled()
+{
+    return findLeafes(root) == pow(2, height() - 1);
 }
 
 unsigned int BinaryTree::size()
