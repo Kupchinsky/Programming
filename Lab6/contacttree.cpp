@@ -91,6 +91,9 @@ void ContactTree::print()
 
 void ContactTree::writeToStream(Node *root, wostream& out)
 {
+    if (root == NULL)
+        return;
+
     out << root->item.FirstName << endl
         << root->item.LastName << endl
         << root->item.Address << endl

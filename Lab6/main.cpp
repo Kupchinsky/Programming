@@ -1,8 +1,9 @@
 #include <iostream>
 #include <iomanip>
 #include <fstream>
-#include "contacttree.hpp"
 #include <windows.h>
+#include "contacttree.hpp"
+#include "TaskMenu.h"
 
 using namespace std;
 
@@ -18,7 +19,7 @@ bool isequal(const wstring& first, const wstring& second)
     if (first.size() != second.size())
         return false;
 
-    for (wstring::size_type i = 0; i < first.size(); i++)
+    for(wstring::size_type i = 0; i < first.size(); i++)
     {
         if (first[i] != second[i] && first[i] != (second[i] ^ 32))
             return false;
@@ -32,6 +33,14 @@ void getResponseLine(wstring& response)
     SetConsoleCP(1251);
     getline(wcin, response);
     SetConsoleCP(866);
+}
+
+bool getResponseBool()
+{
+    wstring response;
+    getResponseLine(response);
+
+    return isequal(response, L"да");
 }
 
 void writeTree(ContactTree* tree)
@@ -54,6 +63,7 @@ void readTree(ContactTree* tree)
     }
     else
     {
+        // Default
         ContactData data;
 
         data.Address = W(L"ул. Пети");
@@ -72,37 +82,177 @@ void readTree(ContactTree* tree)
     }
 }
 
+ContactTree *mytree = new ContactTree();
+
+void cdAdd()
+{
+    ContactData data;
+
+    wcin.ignore();
+
+    outn(L"Имя: ");
+    getResponseLine(data.FirstName);
+
+    outn(L"Фамилия: ");
+    getResponseLine(data.LastName);
+
+    outn(L"Номер: ");
+    getResponseLine(data.Number);
+
+    outn(L"Адрес: ");
+    getResponseLine(data.Address);
+
+    mytree->push(data);
+
+    writeTree(mytree);
+
+    out(L"Контакт добавлен.");
+}
+
+ContactData* findData()
+{
+    wcin.ignore();
+
+    wstring lastName;
+    outn(L"Введите фамилию для поиска: ");
+    getResponseLine(lastName);
+
+    if (lastName.length() == 0)
+        return NULL;
+
+    ContactData *data;
+    mytree->find(lastName, data);
+
+    if (data != NULL)
+        out(L"Нашли: - " << data->LastName << L" (Имя: "
+              << data->FirstName << L", Номер: "
+              << data->Number << L", Адрес: "
+              << data->Address << ")");
+
+    return data;
+}
+
+ContactData *currentEdit = NULL;
+
+void cdEditSuccess()
+{
+    writeTree(mytree);
+    out(L"Контакт изменён.");
+}
+
+void cdEditChild1()
+{
+    outn(L"Новое имя: ");
+    wcin.ignore();
+    wstring newValue;
+    getResponseLine(newValue);
+
+    if (newValue.length() != 0)
+    {
+        currentEdit->FirstName = newValue;
+        cdEditSuccess();
+    }
+}
+
+void cdEditChild2()
+{
+    outn(L"Новый номер: ");
+    wcin.ignore();
+    wstring newValue;
+    getResponseLine(newValue);
+
+    if (newValue.length() != 0)
+    {
+        currentEdit->Number = newValue;
+        cdEditSuccess();
+    }
+}
+
+void cdEditChild3()
+{
+    outn(L"Новый адрес: ");
+    wcin.ignore();
+    wstring newValue;
+    getResponseLine(newValue);
+
+    if (newValue.length() != 0)
+    {
+        currentEdit->Address = newValue;
+        cdEditSuccess();
+    }
+}
+
+void cdEdit()
+{
+    currentEdit = findData();
+
+    if (currentEdit == NULL)
+    {
+        out(L"Контакт не найден!");
+        return;
+    }
+
+    delete (new CTaskMenu())
+            ->setColor("FF")
+            ->addTask(W(L"Изменить имя"), cdEditChild1)
+            ->addTask(W(L"Изменить номер"), cdEditChild2)
+            ->addTask(W(L"Изменить адрес"), cdEditChild3)
+            ->loop();
+}
+
+void cdRemove()
+{
+    ContactData *data = findData();
+
+    if (data == NULL)
+    {
+        out(L"Контакт не найден!");
+        return;
+    }
+
+    outn(L"Подтверждаете удаление? ");
+
+    bool rem = getResponseBool() && mytree->remove(data);
+    out(L"Удаление завершено: " << strbool(rem));
+
+    if (rem)
+        writeTree(mytree);
+}
+
+void cdFind()
+{
+    ContactData *data = findData();
+
+    if (data == NULL)
+    {
+        out(L"Контакт не найден!");
+        return;
+    }
+}
+
+void cdPrint()
+{
+    mytree->print();
+}
+
 int main()
 {
-    ContactTree *mytree = new ContactTree();
+    setlocale(LC_ALL, "Russian");
 
     readTree(mytree);
 
-    mytree->print();
-    wcout << "========================" << endl;
+    delete (new CTaskMenu())
+            ->setColor("FF")
+            ->addTask(W(L"Добавить контакт"), cdAdd)
+            ->addTask(W(L"Изменить контакт"), cdEdit)
+            ->addTask(W(L"Удалить контакт"), cdRemove)
+            ->addTask(W(L"Найти контакт"), cdFind)
+            ->addTask(W(L"Вывести все контакты"), cdPrint)
+            ->loop();
 
-    ContactData *cc = NULL;
-    mytree->find(W(L"петро"), cc);
-
-    wcout << L"NULL: " << strbool(cc == NULL) << endl;
-
-    if (cc != NULL)
-    {
-        wcout << L"Нашли: - " << cc->LastName << " ("
-              << cc->FirstName << ", "
-              << cc->Number << ", "
-              << cc->Address << ")"
-              << endl << endl;
-
-        wcout << L"Удалено: " << strbool(mytree->remove(cc)) << endl << endl;
-    }
-
-    mytree->print();
-
-    //writeTree(mytree);
+    out(L"Выход...");
 
     delete mytree;
-
     return 0;
 }
 

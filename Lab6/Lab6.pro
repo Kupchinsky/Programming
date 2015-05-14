@@ -4,9 +4,11 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += main.cpp \
-    contacttree.cpp
+    contacttree.cpp \
+    TaskMenu.cpp
 
 HEADERS += \
-    contacttree.hpp
+    contacttree.hpp \
+    TaskMenu.h
 
 QMAKE_CXXFLAGS += -std=c++11
