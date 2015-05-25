@@ -18,6 +18,15 @@ public:
 
     void resizeEvent (QResizeEvent*);
 
+private slots:
+    void on_pushButton_Add_clicked();
+
+    void on_pushButton_Del_clicked();
+
+    void on_pushButton_Save_clicked();
+
+    void on_pushButton_Clear_clicked();
+
 private:
     Ui::MainWindow *ui;
 

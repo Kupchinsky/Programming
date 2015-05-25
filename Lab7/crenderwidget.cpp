@@ -14,17 +14,23 @@ void CRenderWidget::paintEvent(QPaintEvent *)
     painter.save();
 
     double f = 0;
-    const int
-            size = this->gp->getRelations().size(),
+    const unsigned int
+            size = this->gp->size(),
             textr = 9,
             textadjust = 15,
             r = size * 12,
             adjustx = (this->width() - 50) * 0.5,
             adjusty = (this->height() - 50) * 0.5;
-    QVector<QPoint> coords;
+    QPoint* coords = new QPoint[size];
 
-    for (int i = 0; i < size; i++, f += 360 / size)
+    this->gp->printRelations();
+    qDebug() << "size: " << size;
+
+    for (unsigned int i = 0; i < size; i++, f += 360 / size)
     {
+        if (!this->gp->isRelationsExists(i))
+            continue;
+
         const double
                 _angle = f * 3.14 / 180,
                 _cos = cos(_angle),
@@ -33,33 +39,47 @@ void CRenderWidget::paintEvent(QPaintEvent *)
         QRect rect(adjustx + (r * _cos), adjusty + (r * _sin), 40, 40);
         QPoint point(rect.x() + 20, rect.y() + 20);
 
-        coords.append(point);
+        coords[i].setX(point.x());
+        coords[i].setY(point.y());
+
+        qDebug() << "set coords of " << i << ": " << coords[i].x() << ", " << coords[i].y();
 
         QRect pointRect(point.x() - 1, point.y() - 1, 2, 2);
 
         painter.drawRect(pointRect);
+        painter.setBrush(Qt::yellow);
         painter.drawEllipse(rect);
 
         rect.adjust(textadjust + (_cos * textr), textadjust + (_sin * textr), 0, 0);
         painter.drawText(rect, QString::number(i));
     }
 
-    for (int i = 0; i < size; i++)
+    for (unsigned int i = 0; i < size; i++)
     {
-        GraphRelationsNode *node = this->gp->getRelations().at(i);
+        if (!this->gp->isRelationsExists(i))
+            continue;
 
-        for (int j = 0; j < node->size(); j++)
+        for (unsigned int j = 0; j < size; j++)
         {
-            if (j + 1 > i || node->at(j) == 0)
+            if (j + 1 > i)
                 continue;
 
-            qDebug() << i << " " << j;
+            bool result;
+            GraphRelation rel = this->gp->getRelation(i, j, &result);
 
-            QPoint p1 = coords.at(i), p2 = coords.at(j);
+            if (!result)
+                continue;
+
+            QPoint &p1 = coords[i], &p2 = coords[j];
+
+            qDebug() << "get coords of " << i << ", " << j << ": (" << p1.x() << ", " << p1.y() << ")" << ", (" << p2.x() << ", " << p2.y() << ")";
+
             QLine line(p1.x(), p1.y(), p2.x(), p2.y());
             painter.drawLine(line);
         }
     }
+
+    delete[] coords;
 
     painter.restore();
 

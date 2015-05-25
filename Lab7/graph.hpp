@@ -2,22 +2,32 @@
 #define GRAPH_HPP
 
 #include <QVector>
+#include <fstream>
 
-typedef QVector<unsigned int> GraphRelationsNode;
-typedef QVector<GraphRelationsNode*> GraphRelations;
+struct GraphRelation
+{
+    unsigned int i, j;
+    int weight;
+};
 
 class Graph
 {
-    GraphRelations relations;
-
-    void createRelationNode();
+    QVector<GraphRelation> relations;
 public:
     Graph();
     ~Graph();
 
-    GraphRelations getRelations() const;
-    void setRelation(unsigned int, unsigned int, unsigned int);
+    void delRelation(unsigned int, unsigned int);
+    void addRelation(unsigned int, unsigned int, int);
+
+    unsigned int size();
+    bool isRelationsExists(unsigned int);
+    GraphRelation getRelation(unsigned int, unsigned int, bool*);
+
+    void loadFromStream(std::istream&);
+    void saveToStream(std::ostream&);
+    void clear();
+    void printRelations();
 };
 
 #endif // GRAPH_HPP
-

@@ -2,46 +2,139 @@
 #include <QVectorIterator>
 #include <QDebug>
 
-void Graph::createRelationNode()
-{
-    GraphRelationsNode *newNode = new GraphRelationsNode();
-    this->relations.append(newNode);
-}
-
 Graph::Graph()
 {
 }
 
 Graph::~Graph()
 {
-    QVectorIterator<GraphRelationsNode*> iter(this->relations);
+    this->clear();
+}
+
+void Graph::clear()
+{
+    this->relations.clear();
+}
+
+void Graph::addRelation(unsigned int i, unsigned int j, int weight)
+{
+    if (i == j)
+        return;
+
+    bool result;
+    this->getRelation(i, j, &result);
+
+    if (result)
+        return;
+
+    GraphRelation newRel;
+
+    newRel.i = i;
+    newRel.j = j;
+    newRel.weight = weight;
+
+    this->relations << newRel;
+}
+
+void Graph::delRelation(unsigned int i, unsigned int j)
+{
+    QVectorIterator<GraphRelation> iter(this->relations);
+    unsigned int _i = 0;
 
     while (iter.hasNext())
-        delete iter.next();
+    {
+        GraphRelation rel = iter.next();
+
+        if (rel.i == i && rel.j == j)
+        {
+            this->relations.erase(this->relations.begin() + _i);
+            break;
+        }
+
+        _i++;
+    }
 }
 
-void Graph::setRelation(unsigned int node1, unsigned int node2, unsigned int weight)
+void Graph::loadFromStream(std::istream& is)
 {
-    int i_max = std::max(node1, node2) + 1;
+    unsigned int size;
+    is >> size;
 
-    if (this->relations.size() < i_max)
+    for (unsigned int i = 1; i <= size; i++)
     {
-        while (this->relations.size() != i_max)
-            createRelationNode();
+        GraphRelation newRel;
+        is >> newRel.i >> newRel.j >> newRel.weight;
+
+        this->relations << newRel;
+    }
+}
+
+unsigned int Graph::size()
+{
+    QVectorIterator<GraphRelation> iter(this->relations);
+    unsigned int size = 0;
+
+    while (iter.hasNext())
+    {
+        GraphRelation rel = iter.next();
+        size = std::max(size, std::max(rel.i + 1, rel.j + 1));
     }
 
-    GraphRelationsNode* np1 = this->relations.at(node1);
-
-    np1->resize(node2 + 1);
-    (*np1)[node2] = weight;
-
-    GraphRelationsNode* np2 = this->relations.at(node2);
-
-    np2->resize(node1 + 1);
-    (*np2)[node1] = weight;
+    return size;
 }
 
-GraphRelations Graph::getRelations() const
+bool Graph::isRelationsExists(unsigned int i)
 {
-    return this->relations;
+    QVectorIterator<GraphRelation> iter(this->relations);
+
+    while (iter.hasNext())
+    {
+        GraphRelation rel = iter.next();
+
+        if (rel.i == i || rel.j == i)
+            return true;
+    }
+
+    return false;
+}
+
+GraphRelation Graph::getRelation(unsigned int i, unsigned int j, bool *result)
+{
+    QVectorIterator<GraphRelation> iter(this->relations);
+
+    while (iter.hasNext())
+    {
+        GraphRelation rel = iter.next();
+
+        if ((rel.i == i && rel.j == j) || (rel.i == j && rel.j == i))
+        {
+            *result = true;
+            return rel;
+        }
+    }
+
+    *result = false;
+}
+
+void Graph::saveToStream(std::ostream& os)
+{
+    os << this->relations.size() << std::endl;
+    QVectorIterator<GraphRelation> iter(this->relations);
+
+    while (iter.hasNext())
+    {
+        GraphRelation rel = iter.next();
+        os << rel.i << " " << rel.j << " " << rel.weight << std::endl;
+    }
+}
+
+void Graph::printRelations()
+{
+    QVectorIterator<GraphRelation> iter(this->relations);
+
+    while (iter.hasNext())
+    {
+        GraphRelation rel = iter.next();
+        qDebug() << rel.i << " " << rel.j << " " << rel.weight;
+    }
 }
