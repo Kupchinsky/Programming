@@ -28,7 +28,7 @@ void CRenderWidget::paintEvent(QPaintEvent *)
 
     for (unsigned int i = 0; i < size; i++, f += 360 / size)
     {
-        if (!this->gp->isRelationsExists(i))
+        if (!this->gp->isNodeExists(i))
             continue;
 
         const double

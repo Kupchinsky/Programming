@@ -32,7 +32,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::resizeEvent (QResizeEvent*)
 {
-    ui->paintWidget->resize(this->width() - 20, this->height() - 70);
+    ui->paintWidget->resize(this->width() - 20, this->height() - 100);
     ui->frame->move(ui->paintWidget->x(), ui->paintWidget->y() + ui->paintWidget->height() + 10);
 }
 

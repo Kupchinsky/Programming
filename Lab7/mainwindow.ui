@@ -49,7 +49,7 @@
       <x>10</x>
       <y>100</y>
       <width>501</width>
-      <height>41</height>
+      <height>61</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -62,7 +62,7 @@
      <property name="geometry">
       <rect>
        <x>190</x>
-       <y>0</y>
+       <y>30</y>
        <width>101</width>
        <height>23</height>
       </rect>
@@ -75,7 +75,7 @@
      <property name="geometry">
       <rect>
        <x>0</x>
-       <y>0</y>
+       <y>30</y>
        <width>31</width>
        <height>20</height>
       </rect>
@@ -88,7 +88,7 @@
      <property name="geometry">
       <rect>
        <x>80</x>
-       <y>0</y>
+       <y>30</y>
        <width>101</width>
        <height>23</height>
       </rect>
@@ -101,7 +101,7 @@
      <property name="geometry">
       <rect>
        <x>40</x>
-       <y>0</y>
+       <y>30</y>
        <width>31</width>
        <height>20</height>
       </rect>
@@ -114,7 +114,7 @@
      <property name="geometry">
       <rect>
        <x>300</x>
-       <y>0</y>
+       <y>30</y>
        <width>111</width>
        <height>23</height>
       </rect>
@@ -127,13 +127,52 @@
      <property name="geometry">
       <rect>
        <x>420</x>
-       <y>0</y>
+       <y>30</y>
        <width>71</width>
        <height>23</height>
       </rect>
      </property>
      <property name="text">
       <string>Очистить</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEditNode">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>31</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="placeholderText">
+      <string>0</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_Add_2">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>0</y>
+       <width>121</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Добавить вершину</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_DelNode">
+     <property name="geometry">
+      <rect>
+       <x>170</x>
+       <y>0</y>
+       <width>121</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Удалить вершину</string>
      </property>
     </widget>
    </widget>

@@ -1,6 +1,7 @@
 #include "graph.hpp"
 #include <QVectorIterator>
 #include <QDebug>
+#include <QMutableListIterator>
 
 Graph::Graph()
 {
@@ -18,7 +19,7 @@ void Graph::clear()
 
 void Graph::addRelation(unsigned int i, unsigned int j, int weight)
 {
-    if (i == j)
+    if (i == j || !isNodeExists(i))
         return;
 
     bool result;
@@ -45,7 +46,7 @@ void Graph::delRelation(unsigned int i, unsigned int j)
     {
         GraphRelation rel = iter.next();
 
-        if (rel.i == i && rel.j == j)
+        if ((rel.i == i && rel.j == j) || (rel.i == j && rel.j == i))
         {
             this->relations.erase(this->relations.begin() + _i);
             break;
@@ -71,14 +72,11 @@ void Graph::loadFromStream(std::istream& is)
 
 unsigned int Graph::size()
 {
-    QVectorIterator<GraphRelation> iter(this->relations);
+    QListIterator<unsigned int> iter(this->nodes);
     unsigned int size = 0;
 
     while (iter.hasNext())
-    {
-        GraphRelation rel = iter.next();
-        size = std::max(size, std::max(rel.i + 1, rel.j + 1));
-    }
+        size = std::max(size, iter.next());
 
     return size;
 }
@@ -136,5 +134,51 @@ void Graph::printRelations()
     {
         GraphRelation rel = iter.next();
         qDebug() << rel.i << " " << rel.j << " " << rel.weight;
+    }
+}
+
+bool Graph::isNodeExists(unsigned int i)
+{
+    return this->nodes.contains(i);
+}
+
+void Graph::addNode(unsigned int i)
+{
+    if (isNodeExists(i))
+        return;
+
+    this->nodes.append(i);
+}
+
+void Graph::delNode(unsigned int i)
+{
+    if (!isNodeExists(i))
+        return;
+
+    QVectorIterator<GraphRelation> iter(this->relations);
+    unsigned int _i = 0;
+
+    while (iter.hasNext())
+    {
+        GraphRelation rel = iter.next();
+
+        if (rel.i == i || rel.j == i)
+        {
+            this->relations.erase(this->relations.begin() + _i);
+            break;
+        }
+
+        _i++;
+    }
+
+    QMutableListIterator<unsigned int> iter2(this->nodes);
+
+    while(iter2.hasNext())
+    {
+        if (iter2.next() == i)
+        {
+            iter2.remove();
+            break;
+        }
     }
 }
