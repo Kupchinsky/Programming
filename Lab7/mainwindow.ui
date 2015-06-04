@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>622</width>
-    <height>542</height>
+    <width>696</width>
+    <height>601</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -21,7 +21,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>30</y>
+      <y>10</y>
       <width>81</width>
       <height>61</height>
      </rect>
@@ -30,24 +30,11 @@
      <string notr="true">border: 1px solid;</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>10</y>
-      <width>101</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Полученный граф:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-    </property>
-   </widget>
    <widget class="QFrame" name="frame">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>100</y>
+      <x>60</x>
+      <y>190</y>
       <width>491</width>
       <height>111</height>
      </rect>
@@ -58,10 +45,10 @@
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
-    <widget class="QPushButton" name="pushButton_Del">
+    <widget class="QPushButton" name="pushButton_DelRelation">
      <property name="geometry">
       <rect>
-       <x>220</x>
+       <x>240</x>
        <y>30</y>
        <width>91</width>
        <height>23</height>
@@ -71,12 +58,12 @@
       <string>Удалить связь</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEditA">
+    <widget class="QLineEdit" name="lineEdit_RelationI">
      <property name="geometry">
       <rect>
        <x>0</x>
        <y>30</y>
-       <width>31</width>
+       <width>16</width>
        <height>20</height>
       </rect>
      </property>
@@ -84,13 +71,13 @@
       <set>Qt::ImhDigitsOnly</set>
      </property>
      <property name="placeholderText">
-      <string>0</string>
+      <string>i</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_Add">
+    <widget class="QPushButton" name="pushButton_AddRelation">
      <property name="geometry">
       <rect>
-       <x>120</x>
+       <x>140</x>
        <y>30</y>
        <width>91</width>
        <height>23</height>
@@ -100,12 +87,12 @@
       <string>Добавить связь</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEditB">
+    <widget class="QLineEdit" name="lineEdit_RelationJ">
      <property name="geometry">
       <rect>
-       <x>40</x>
+       <x>20</x>
        <y>30</y>
-       <width>31</width>
+       <width>16</width>
        <height>20</height>
       </rect>
      </property>
@@ -113,13 +100,13 @@
       <set>Qt::ImhDigitsOnly</set>
      </property>
      <property name="placeholderText">
-      <string>0</string>
+      <string>j</string>
      </property>
     </widget>
     <widget class="QPushButton" name="pushButton_Save">
      <property name="geometry">
       <rect>
-       <x>320</x>
+       <x>340</x>
        <y>30</y>
        <width>101</width>
        <height>23</height>
@@ -129,25 +116,12 @@
       <string>Сохранить в файл</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_Reload">
-     <property name="geometry">
-      <rect>
-       <x>430</x>
-       <y>30</y>
-       <width>61</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Reload</string>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="lineEditNode">
+    <widget class="QLineEdit" name="lineEdit_NodeI">
      <property name="geometry">
       <rect>
        <x>0</x>
        <y>0</y>
-       <width>31</width>
+       <width>21</width>
        <height>20</height>
       </rect>
      </property>
@@ -155,15 +129,15 @@
       <set>Qt::ImhDigitsOnly</set>
      </property>
      <property name="placeholderText">
-      <string>0</string>
+      <string>i</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_Add_2">
+    <widget class="QPushButton" name="pushButton_AddNode">
      <property name="geometry">
       <rect>
-       <x>40</x>
+       <x>30</x>
        <y>0</y>
-       <width>121</width>
+       <width>111</width>
        <height>23</height>
       </rect>
      </property>
@@ -174,9 +148,9 @@
     <widget class="QPushButton" name="pushButton_DelNode">
      <property name="geometry">
       <rect>
-       <x>170</x>
+       <x>150</x>
        <y>0</y>
-       <width>121</width>
+       <width>101</width>
        <height>23</height>
       </rect>
      </property>
@@ -184,10 +158,10 @@
       <string>Удалить вершину</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton">
+    <widget class="QPushButton" name="pushButton_Visit">
      <property name="geometry">
       <rect>
-       <x>300</x>
+       <x>260</x>
        <y>0</y>
        <width>61</width>
        <height>23</height>
@@ -197,7 +171,7 @@
       <string>Обход</string>
      </property>
     </widget>
-    <widget class="QTextEdit" name="log">
+    <widget class="QTextEdit" name="textEdit_Log">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -210,12 +184,12 @@
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_2">
+    <widget class="QPushButton" name="pushButton_Algorithm">
      <property name="geometry">
       <rect>
-       <x>370</x>
+       <x>330</x>
        <y>0</y>
-       <width>121</width>
+       <width>111</width>
        <height>23</height>
       </rect>
      </property>
@@ -223,10 +197,10 @@
       <string>Алгоритм Дейкстры</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEditWeight">
+    <widget class="QLineEdit" name="lineEdit_Weight">
      <property name="geometry">
       <rect>
-       <x>80</x>
+       <x>40</x>
        <y>30</y>
        <width>31</width>
        <height>20</height>
@@ -239,7 +213,49 @@
       <bool>false</bool>
      </property>
      <property name="placeholderText">
-      <string>0</string>
+      <string>Вес</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_Reload">
+     <property name="geometry">
+      <rect>
+       <x>450</x>
+       <y>30</y>
+       <width>41</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Reload</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_Clear">
+     <property name="geometry">
+      <rect>
+       <x>450</x>
+       <y>0</y>
+       <width>41</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Clear</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_ChangeDirection">
+     <property name="geometry">
+      <rect>
+       <x>80</x>
+       <y>30</y>
+       <width>51</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Направление&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="text">
+      <string>i     j</string>
      </property>
     </widget>
    </widget>

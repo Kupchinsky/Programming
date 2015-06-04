@@ -57,7 +57,7 @@ void Graph::visit(unsigned int node, QList<unsigned int>& used)
     }
 }
 
-void Graph::addRelation(unsigned int i, unsigned int j, int weight)
+void Graph::addRelation(unsigned int i, unsigned int j, int weight, GraphDirection direction)
 {
     if (i == j || !isNodeExists(i))
         return;
@@ -73,6 +73,7 @@ void Graph::addRelation(unsigned int i, unsigned int j, int weight)
     newRel.i = i;
     newRel.j = j;
     newRel.weight = weight;
+    newRel.direction = direction;
 
     this->relations << newRel;
 }
@@ -160,6 +161,10 @@ void Graph::loadFromStream(std::istream& ifs)
         GraphRelation newRel;
         ifs >> newRel.i >> newRel.j >> newRel.weight;
 
+        unsigned int direction;
+        ifs >> direction;
+        newRel.direction = static_cast<GraphDirection>(direction);
+
         this->relations << newRel;
     }
 }
@@ -181,7 +186,7 @@ void Graph::saveToStream(std::ostream& os)
     while (iter2.hasNext())
     {
         GraphRelation rel = iter2.next();
-        os << rel.i << " " << rel.j << " " << rel.weight << std::endl;
+        os << rel.i << " " << rel.j << " " << rel.weight << " " << rel.direction << std::endl;
     }
 }
 

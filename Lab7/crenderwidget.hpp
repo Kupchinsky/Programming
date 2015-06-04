@@ -22,6 +22,9 @@ public slots:
 
 protected:
     void paintEvent(QPaintEvent*);
+
+private:
+    QPixmap pixmap;
 };
 
 #endif // CRENDERWIDGET_HPP

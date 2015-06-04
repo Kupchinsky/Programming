@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QMessageBox>
+#include "graph.hpp"
 
 namespace Ui {
 class MainWindow;
@@ -19,25 +20,30 @@ public:
     void resizeEvent (QResizeEvent*);
 
 private slots:
-    void on_pushButton_Add_clicked();
 
-    void on_pushButton_Del_clicked();
-
-    void on_pushButton_Save_clicked();
-
-    void on_pushButton_Clear_clicked();
-
-    void on_pushButton_Add_2_clicked();
+    void on_pushButton_AddNode_clicked();
 
     void on_pushButton_DelNode_clicked();
 
+    void on_pushButton_Visit_clicked();
+
+    void on_pushButton_Algorithm_clicked();
+
+    void on_pushButton_Clear_clicked();
+
+    void on_pushButton_AddRelation_clicked();
+
+    void on_pushButton_DelRelation_clicked();
+
+    void on_pushButton_Save_clicked();
+
     void on_pushButton_Reload_clicked();
 
-    void on_pushButton_clicked();
+    void on_pushButton_ChangeDirection_clicked();
 
 private:
     Ui::MainWindow *ui;
-
+    GraphDirection addDirection;
 };
 
 #endif // MAINWINDOW_HPP

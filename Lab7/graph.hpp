@@ -3,12 +3,22 @@
 
 #include <QVector>
 #include <QString>
+#include <QPixmap>
 #include <fstream>
+
+enum GraphDirection
+{
+    None = 0,
+    iTo_j,
+    jTo_i,
+    Both
+};
 
 struct GraphRelation
 {
     unsigned int i, j;
     int weight;
+    GraphDirection direction;
 };
 
 class Graph
@@ -23,7 +33,7 @@ public:
     ~Graph();
 
     void delRelation(unsigned int, unsigned int);
-    void addRelation(unsigned int, unsigned int, int);
+    void addRelation(unsigned int, unsigned int, int, GraphDirection);
     void addNode(unsigned int);
     void delNode(unsigned int);
     QString& visit(unsigned int);

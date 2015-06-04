@@ -5,6 +5,7 @@
 CRenderWidget::CRenderWidget(QWidget *parent) :
     QWidget(parent)
 {
+    this->pixmap.load("arrow.png");
 }
 
 void CRenderWidget::paintEvent(QPaintEvent *)
@@ -65,17 +66,25 @@ void CRenderWidget::paintEvent(QPaintEvent *)
                 continue;
 
             bool result;
-            this->gp->getRelation(i, j, &result);
+            GraphRelation rel = this->gp->getRelation(i, j, &result);
 
             if (!result)
                 continue;
 
-            QPoint &p1 = coords[i], &p2 = coords[j];
+            QPoint &p1 = coords[i], &p2 = coords[j], p3 = QPoint((p1.x() + p2.x()) / 2, (p1.y() + p2.y()) / 2);
 
             qDebug() << "get coords of " << i << ", " << j << ": (" << p1.x() << ", " << p1.y() << ")" << ", (" << p2.x() << ", " << p2.y() << ")";
 
             QLine line(p1.x(), p1.y(), p2.x(), p2.y());
             painter.drawLine(line);
+            painter.drawText(p3, QString::number(rel.weight));
+
+            if (rel.direction != None)
+            {
+                /*QTransform transform;
+                transform.rotate(90 * cos());
+                painter.drawPixmap(p3, QPixmap(pixmap.transformed(transform)));*/
+            }
         }
     }
 

@@ -7,7 +7,8 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    addDirection(None)
 {
     ui->setupUi(this);
 
@@ -27,9 +28,47 @@ void MainWindow::resizeEvent (QResizeEvent*)
     ui->paintWidget->resize(this->width() - 20, this->height() - ui->frame->height() - ui->paintWidget->x() - 40);
 }
 
-void MainWindow::on_pushButton_Add_clicked()
+void MainWindow::on_pushButton_AddNode_clicked()
 {
-    int weight = ui->lineEditWeight->text().toInt();
+    ui->paintWidget->gp->addNode(ui->lineEdit_NodeI->text().toInt());
+    ui->paintWidget->repaint();
+}
+
+void MainWindow::on_pushButton_DelNode_clicked()
+{
+    ui->paintWidget->gp->delNode(ui->lineEdit_NodeI->text().toInt());
+    ui->paintWidget->repaint();
+}
+
+void MainWindow::on_pushButton_Visit_clicked()
+{
+    bool ok;
+
+    QInputDialog* inputDialog = new QInputDialog();
+    inputDialog->setOptions(QInputDialog::NoButtons);
+
+    QString startNode = inputDialog->getText(NULL, "", "Введите стартовую вершину:", QLineEdit::Normal, "0", &ok);
+
+    if (!ok)
+        return;
+
+    ui->textEdit_Log->append(ui->paintWidget->gp->visit(startNode.toInt()));
+}
+
+void MainWindow::on_pushButton_Algorithm_clicked()
+{
+    //
+}
+
+void MainWindow::on_pushButton_Clear_clicked()
+{
+    ui->paintWidget->gp->clear();
+    ui->paintWidget->repaint();
+}
+
+void MainWindow::on_pushButton_AddRelation_clicked()
+{
+    int weight = ui->lineEdit_Weight->text().toInt();
 
     if (weight <= 0)
     {
@@ -37,13 +76,13 @@ void MainWindow::on_pushButton_Add_clicked()
         return;
     }
 
-    ui->paintWidget->gp->addRelation(ui->lineEditA->text().toInt(), ui->lineEditB->text().toInt(), weight);
+    ui->paintWidget->gp->addRelation(ui->lineEdit_RelationI->text().toInt(), ui->lineEdit_RelationJ->text().toInt(), weight, addDirection);
     ui->paintWidget->repaint();
 }
 
-void MainWindow::on_pushButton_Del_clicked()
+void MainWindow::on_pushButton_DelRelation_clicked()
 {
-    ui->paintWidget->gp->delRelation(ui->lineEditA->text().toInt(), ui->lineEditB->text().toInt());
+    ui->paintWidget->gp->delRelation(ui->lineEdit_RelationI->text().toInt(), ui->lineEdit_RelationJ->text().toInt());
     ui->paintWidget->repaint();
 }
 
@@ -54,22 +93,6 @@ void MainWindow::on_pushButton_Save_clicked()
     ofs.open("graph.txt", std::ios::out);
     ui->paintWidget->gp->saveToStream(ofs);
     ofs.close();
-}
-
-void MainWindow::on_pushButton_Add_2_clicked()
-{
-    ui->paintWidget->gp->addNode(ui->lineEditNode->text().toInt());
-    ui->paintWidget->repaint();
-}
-
-void MainWindow::on_pushButton_DelNode_clicked()
-{
-    ui->paintWidget->gp->delNode(ui->lineEditNode->text().toInt());
-    ui->paintWidget->repaint();
-}
-
-void MainWindow::on_pushButton_Clear_clicked()
-{
 }
 
 void MainWindow::on_pushButton_Reload_clicked()
@@ -88,18 +111,42 @@ void MainWindow::on_pushButton_Reload_clicked()
     ui->paintWidget->repaint();
 }
 
-void MainWindow::on_pushButton_clicked()
+void MainWindow::on_pushButton_ChangeDirection_clicked()
 {
-    // Visiting
-    bool ok;
+    switch(this->addDirection)
+    {
+    case None:
+        this->addDirection = jTo_i;
+        break;
+    case jTo_i:
+        this->addDirection = iTo_j;
+        break;
+    case iTo_j:
+        this->addDirection = Both;
+        break;
+    case Both:
+        this->addDirection = None;
+        break;
 
-    QInputDialog* inputDialog = new QInputDialog();
-    inputDialog->setOptions(QInputDialog::NoButtons);
+    }
 
-    QString startNode = inputDialog->getText(NULL, "", "Введите стартовую вершину:", QLineEdit::Normal, "0", &ok);
+    QString targetText;
 
-    if (!ok)
-        return;
+    switch(this->addDirection)
+    {
+    case None:
+        targetText = "i     j";
+        break;
+    case jTo_i:
+        targetText = "i <-  j";
+        break;
+    case iTo_j:
+        targetText = "i  -> j";
+        break;
+    case Both:
+        targetText = "i <-> j";
+        break;
+    }
 
-    ui->log->append(ui->paintWidget->gp->visit(startNode.toInt()));
+    ui->pushButton_ChangeDirection->setText(targetText);
 }
