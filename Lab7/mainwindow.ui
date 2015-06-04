@@ -48,8 +48,8 @@
      <rect>
       <x>10</x>
       <y>100</y>
-      <width>501</width>
-      <height>61</height>
+      <width>491</width>
+      <height>111</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -61,9 +61,9 @@
     <widget class="QPushButton" name="pushButton_Del">
      <property name="geometry">
       <rect>
-       <x>190</x>
+       <x>220</x>
        <y>30</y>
-       <width>101</width>
+       <width>91</width>
        <height>23</height>
       </rect>
      </property>
@@ -80,6 +80,9 @@
        <height>20</height>
       </rect>
      </property>
+     <property name="inputMethodHints">
+      <set>Qt::ImhDigitsOnly</set>
+     </property>
      <property name="placeholderText">
       <string>0</string>
      </property>
@@ -87,9 +90,9 @@
     <widget class="QPushButton" name="pushButton_Add">
      <property name="geometry">
       <rect>
-       <x>80</x>
+       <x>120</x>
        <y>30</y>
-       <width>101</width>
+       <width>91</width>
        <height>23</height>
       </rect>
      </property>
@@ -106,6 +109,9 @@
        <height>20</height>
       </rect>
      </property>
+     <property name="inputMethodHints">
+      <set>Qt::ImhDigitsOnly</set>
+     </property>
      <property name="placeholderText">
       <string>0</string>
      </property>
@@ -113,9 +119,9 @@
     <widget class="QPushButton" name="pushButton_Save">
      <property name="geometry">
       <rect>
-       <x>300</x>
+       <x>320</x>
        <y>30</y>
-       <width>111</width>
+       <width>101</width>
        <height>23</height>
       </rect>
      </property>
@@ -123,17 +129,17 @@
       <string>Сохранить в файл</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_Clear">
+    <widget class="QPushButton" name="pushButton_Reload">
      <property name="geometry">
       <rect>
-       <x>420</x>
+       <x>430</x>
        <y>30</y>
-       <width>71</width>
+       <width>61</width>
        <height>23</height>
       </rect>
      </property>
      <property name="text">
-      <string>Очистить</string>
+      <string>Reload</string>
      </property>
     </widget>
     <widget class="QLineEdit" name="lineEditNode">
@@ -144,6 +150,9 @@
        <width>31</width>
        <height>20</height>
       </rect>
+     </property>
+     <property name="inputMethodHints">
+      <set>Qt::ImhDigitsOnly</set>
      </property>
      <property name="placeholderText">
       <string>0</string>
@@ -180,12 +189,57 @@
       <rect>
        <x>300</x>
        <y>0</y>
-       <width>75</width>
+       <width>61</width>
        <height>23</height>
       </rect>
      </property>
      <property name="text">
       <string>Обход</string>
+     </property>
+    </widget>
+    <widget class="QTextEdit" name="log">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>60</y>
+       <width>491</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_2">
+     <property name="geometry">
+      <rect>
+       <x>370</x>
+       <y>0</y>
+       <width>121</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Алгоритм Дейкстры</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEditWeight">
+     <property name="geometry">
+      <rect>
+       <x>80</x>
+       <y>30</y>
+       <width>31</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="inputMethodHints">
+      <set>Qt::ImhDigitsOnly</set>
+     </property>
+     <property name="readOnly">
+      <bool>false</bool>
+     </property>
+     <property name="placeholderText">
+      <string>0</string>
      </property>
     </widget>
    </widget>

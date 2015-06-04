@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include "graph.hpp"
 #include <QDebug>
+#include <QInputDialog>
 #include <fstream>
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -11,15 +12,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     ui->paintWidget->gp = new Graph();
-
-    std::ifstream ifs;
-    ifs.open("graph.txt", std::ios::in);
-
-    if (ifs.is_open())
-    {
-        ui->paintWidget->gp->loadFromStream(ifs);
-        ifs.close();
-    }
+    this->on_pushButton_Reload_clicked();
 }
 
 MainWindow::~MainWindow()
@@ -30,13 +23,21 @@ MainWindow::~MainWindow()
 
 void MainWindow::resizeEvent (QResizeEvent*)
 {
-    ui->paintWidget->resize(this->width() - 20, this->height() - 100);
-    ui->frame->move(ui->paintWidget->x(), ui->paintWidget->y() + ui->paintWidget->height() + 10);
+    ui->frame->move(ui->paintWidget->x(), this->height() - ui->frame->height() - 10);
+    ui->paintWidget->resize(this->width() - 20, this->height() - ui->frame->height() - ui->paintWidget->x() - 40);
 }
 
 void MainWindow::on_pushButton_Add_clicked()
 {
-    ui->paintWidget->gp->addRelation(ui->lineEditA->text().toInt(), ui->lineEditB->text().toInt(), 1);
+    int weight = ui->lineEditWeight->text().toInt();
+
+    if (weight <= 0)
+    {
+        QMessageBox(QMessageBox::Warning, "Ошибка", "Вес должен быть положительным!", QMessageBox::Ok).exec();
+        return;
+    }
+
+    ui->paintWidget->gp->addRelation(ui->lineEditA->text().toInt(), ui->lineEditB->text().toInt(), weight);
     ui->paintWidget->repaint();
 }
 
@@ -55,12 +56,6 @@ void MainWindow::on_pushButton_Save_clicked()
     ofs.close();
 }
 
-void MainWindow::on_pushButton_Clear_clicked()
-{
-    ui->paintWidget->gp->clear();
-    ui->paintWidget->repaint();
-}
-
 void MainWindow::on_pushButton_Add_2_clicked()
 {
     ui->paintWidget->gp->addNode(ui->lineEditNode->text().toInt());
@@ -71,4 +66,40 @@ void MainWindow::on_pushButton_DelNode_clicked()
 {
     ui->paintWidget->gp->delNode(ui->lineEditNode->text().toInt());
     ui->paintWidget->repaint();
+}
+
+void MainWindow::on_pushButton_Clear_clicked()
+{
+}
+
+void MainWindow::on_pushButton_Reload_clicked()
+{
+    ui->paintWidget->gp->clear();
+
+    std::ifstream ifs;
+    ifs.open("graph.txt", std::ios::in);
+
+    if (ifs.is_open())
+    {
+        ui->paintWidget->gp->loadFromStream(ifs);
+        ifs.close();
+    }
+
+    ui->paintWidget->repaint();
+}
+
+void MainWindow::on_pushButton_clicked()
+{
+    // Visiting
+    bool ok;
+
+    QInputDialog* inputDialog = new QInputDialog();
+    inputDialog->setOptions(QInputDialog::NoButtons);
+
+    QString startNode = inputDialog->getText(NULL, "", "Введите стартовую вершину:", QLineEdit::Normal, "0", &ok);
+
+    if (!ok)
+        return;
+
+    ui->log->append(ui->paintWidget->gp->visit(startNode.toInt()));
 }

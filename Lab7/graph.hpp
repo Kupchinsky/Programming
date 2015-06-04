@@ -2,6 +2,7 @@
 #define GRAPH_HPP
 
 #include <QVector>
+#include <QString>
 #include <fstream>
 
 struct GraphRelation
@@ -14,6 +15,9 @@ class Graph
 {
     QVector<GraphRelation> relations;
     QList<unsigned int> nodes;
+    QString visitResult;
+
+    void visit(unsigned int, QList<unsigned int>&);
 public:
     Graph();
     ~Graph();
@@ -22,6 +26,7 @@ public:
     void addRelation(unsigned int, unsigned int, int);
     void addNode(unsigned int);
     void delNode(unsigned int);
+    QString& visit(unsigned int);
 
     unsigned int size();
     bool isRelationsExists(unsigned int);

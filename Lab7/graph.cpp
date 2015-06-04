@@ -2,6 +2,7 @@
 #include <QVectorIterator>
 #include <QDebug>
 #include <QMutableListIterator>
+#include <QQueue>
 
 Graph::Graph()
 {
@@ -16,6 +17,44 @@ void Graph::clear()
 {
     this->nodes.clear();
     this->relations.clear();
+}
+
+QString& Graph::visit(unsigned int startNode)
+{
+    visitResult = "Start visiting...\n";
+
+    QList<unsigned int> list;
+    visit(startNode, list);
+
+    qDebug() << visitResult;
+
+    return visitResult;
+}
+
+void Graph::visit(unsigned int node, QList<unsigned int>& used)
+{
+    visitResult += "Visiting ";
+    visitResult += QString::number(node);
+    visitResult += "\n";
+
+    used << node;
+
+    //round += QString::number(st+1);
+    //round += " ";
+
+    unsigned int size = this->size();
+
+    for (unsigned int i = 0; i < size; i++)
+    {
+        if (!this->isNodeExists(i))
+            continue;
+
+        bool result;
+        this->getRelation(node, i, &result);
+
+        if (result && !used.contains(i))
+            visit(i, used);
+    }
 }
 
 void Graph::addRelation(unsigned int i, unsigned int j, int weight)
