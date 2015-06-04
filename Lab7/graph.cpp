@@ -14,6 +14,7 @@ Graph::~Graph()
 
 void Graph::clear()
 {
+    this->nodes.clear();
     this->relations.clear();
 }
 
@@ -126,6 +127,9 @@ void Graph::loadFromStream(std::istream& ifs)
 
 void Graph::saveToStream(std::ostream& os)
 {
+    // По возрастанию
+    qSort(this->nodes.begin(), this->nodes.end());
+
     os << this->nodes.size() << std::endl;
     QListIterator<unsigned int> iter(this->nodes);
 
