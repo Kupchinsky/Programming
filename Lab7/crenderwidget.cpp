@@ -65,7 +65,7 @@ void CRenderWidget::paintEvent(QPaintEvent *)
                 continue;
 
             bool result;
-            GraphRelation rel = this->gp->getRelation(i, j, &result);
+            this->gp->getRelation(i, j, &result);
 
             if (!result)
                 continue;

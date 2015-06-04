@@ -10,11 +10,9 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    Graph *tt = new Graph();
-    ui->paintWidget->gp = tt;
+    ui->paintWidget->gp = new Graph();
 
     std::ifstream ifs;
-
     ifs.open("graph.txt", std::ios::in);
 
     if (ifs.is_open())
@@ -50,15 +48,27 @@ void MainWindow::on_pushButton_Del_clicked()
 
 void MainWindow::on_pushButton_Save_clicked()
 {
-    std::ofstream of;
+    std::ofstream ofs;
 
-    of.open("graph.txt", std::ios::out);
-    ui->paintWidget->gp->saveToStream(of);
-    of.close();
+    ofs.open("graph.txt", std::ios::out);
+    ui->paintWidget->gp->saveToStream(ofs);
+    ofs.close();
 }
 
 void MainWindow::on_pushButton_Clear_clicked()
 {
     ui->paintWidget->gp->clear();
+    ui->paintWidget->repaint();
+}
+
+void MainWindow::on_pushButton_Add_2_clicked()
+{
+    ui->paintWidget->gp->addNode(ui->lineEditNode->text().toInt());
+    ui->paintWidget->repaint();
+}
+
+void MainWindow::on_pushButton_DelNode_clicked()
+{
+    ui->paintWidget->gp->delNode(ui->lineEditNode->text().toInt());
     ui->paintWidget->repaint();
 }

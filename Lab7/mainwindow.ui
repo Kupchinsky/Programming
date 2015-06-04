@@ -175,6 +175,19 @@
       <string>Удалить вершину</string>
      </property>
     </widget>
+    <widget class="QPushButton" name="pushButton">
+     <property name="geometry">
+      <rect>
+       <x>300</x>
+       <y>0</y>
+       <width>75</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Обход</string>
+     </property>
+    </widget>
    </widget>
   </widget>
  </widget>
