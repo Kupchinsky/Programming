@@ -41,9 +41,15 @@ private slots:
 
     void on_pushButton_ChangeDirection_clicked();
 
+    void on_lineEdit_RelationI_editingFinished();
+
+    void on_lineEdit_RelationJ_editingFinished();
+
 private:
     Ui::MainWindow *ui;
     GraphDirection addDirection;
+
+    QString getDirectionStr(GraphDirection&);
 };
 
 #endif // MAINWINDOW_HPP

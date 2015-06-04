@@ -39,9 +39,6 @@ void Graph::visit(unsigned int node, QList<unsigned int>& used)
 
     used << node;
 
-    //round += QString::number(st+1);
-    //round += " ";
-
     unsigned int size = this->size();
 
     for (unsigned int i = 0; i < size; i++)
@@ -70,8 +67,8 @@ void Graph::addRelation(unsigned int i, unsigned int j, int weight, GraphDirecti
 
     GraphRelation newRel;
 
-    newRel.i = i;
-    newRel.j = j;
+    newRel.i = std::min(i, j);
+    newRel.j = std::max(i, j);
     newRel.weight = weight;
     newRel.direction = direction;
 

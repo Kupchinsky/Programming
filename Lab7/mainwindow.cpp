@@ -130,23 +130,41 @@ void MainWindow::on_pushButton_ChangeDirection_clicked()
 
     }
 
+    on_lineEdit_RelationI_editingFinished();
+}
+
+void MainWindow::on_lineEdit_RelationI_editingFinished()
+{
+    ui->pushButton_ChangeDirection->setText(
+                QString::number(ui->lineEdit_RelationI->text().toInt()) + " " +
+                getDirectionStr(this->addDirection) + " " +
+                QString::number(ui->lineEdit_RelationJ->text().toInt()));
+}
+
+QString MainWindow::getDirectionStr(GraphDirection& direction)
+{
     QString targetText;
 
-    switch(this->addDirection)
+    switch(direction)
     {
     case None:
-        targetText = "i     j";
+        targetText = "   ";
         break;
     case jTo_i:
-        targetText = "i <-  j";
+        targetText = "<- ";
         break;
     case iTo_j:
-        targetText = "i  -> j";
+        targetText = "-> ";
         break;
     case Both:
-        targetText = "i <-> j";
+        targetText = "<->";
         break;
     }
 
-    ui->pushButton_ChangeDirection->setText(targetText);
+    return targetText;
+}
+
+void MainWindow::on_lineEdit_RelationJ_editingFinished()
+{
+    this->on_lineEdit_RelationI_editingFinished();
 }

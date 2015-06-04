@@ -2,10 +2,45 @@
 #include <cmath>
 #include <QDebug>
 
+#define Pi 3.14
+#define ArrowSize 10
+
 CRenderWidget::CRenderWidget(QWidget *parent) :
     QWidget(parent)
 {
-    this->pixmap.load("arrow.png");
+}
+
+void CRenderWidget::drawLineWithArrow(QPainter& painter, QPoint& pI, QPoint& pJ, GraphDirection& direction)
+{
+    QLineF line(pI, pJ);
+
+    if (qFuzzyCompare(line.length(), qreal(0.)))
+        return;
+
+    painter.drawLine(line);
+
+    if (direction == None)
+        return;
+
+    double angle = ::acos(line.dx() / line.length());
+
+    if (line.dy() >= 0)
+        angle = 6.28 - angle;
+
+    QPoint *sourcePoint = &pI, *destPoint = &pJ;
+
+    QPointF sourceArrowP1 = *sourcePoint + QPointF(sin(angle + Pi / 3) * ArrowSize, cos(angle + Pi / 3) * ArrowSize);
+    QPointF destArrowP1 = *destPoint + QPointF(sin(angle - Pi / 3) * ArrowSize, cos(angle - Pi / 3) * ArrowSize);
+    QPointF sourceArrowP2 = *sourcePoint + QPointF(sin(angle + Pi - Pi / 3) * ArrowSize, cos(angle + Pi - Pi / 3) * ArrowSize);
+    QPointF destArrowP2 = *destPoint + QPointF(sin(angle - Pi + Pi / 3) * ArrowSize, cos(angle - Pi + Pi / 3) * ArrowSize);
+
+    painter.setBrush(Qt::black);
+
+    if (direction == Both || direction == iTo_j)
+        painter.drawPolygon(QPolygonF() << line.p1() << sourceArrowP1 << sourceArrowP2);
+
+    if (direction == Both || direction == jTo_i)
+        painter.drawPolygon(QPolygonF() << line.p2() << destArrowP1 << destArrowP2);
 }
 
 void CRenderWidget::paintEvent(QPaintEvent *)
@@ -71,20 +106,13 @@ void CRenderWidget::paintEvent(QPaintEvent *)
             if (!result)
                 continue;
 
-            QPoint &p1 = coords[i], &p2 = coords[j], p3 = QPoint((p1.x() + p2.x()) / 2, (p1.y() + p2.y()) / 2);
+            unsigned int _i = std::max(i, j), _j = std::min(i, j);
 
-            qDebug() << "get coords of " << i << ", " << j << ": (" << p1.x() << ", " << p1.y() << ")" << ", (" << p2.x() << ", " << p2.y() << ")";
+            QPoint &p1 = coords[_i], &p2 = coords[_j], p3 = QPoint((p1.x() + p2.x()) / 2, (p1.y() + p2.y()) / 2);
 
-            QLine line(p1.x(), p1.y(), p2.x(), p2.y());
-            painter.drawLine(line);
             painter.drawText(p3, QString::number(rel.weight));
 
-            if (rel.direction != None)
-            {
-                /*QTransform transform;
-                transform.rotate(90 * cos());
-                painter.drawPixmap(p3, QPixmap(pixmap.transformed(transform)));*/
-            }
+            this->drawLineWithArrow(painter, p1, p2, rel.direction);
         }
     }
 

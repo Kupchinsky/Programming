@@ -3,7 +3,6 @@
 
 #include <QBrush>
 #include <QPen>
-#include <QPixmap>
 #include <QPainter>
 #include <QWidget>
 #include "graph.hpp"
@@ -24,7 +23,7 @@ protected:
     void paintEvent(QPaintEvent*);
 
 private:
-    QPixmap pixmap;
+    void drawLineWithArrow(QPainter&, QPoint&, QPoint&, GraphDirection&);
 };
 
 #endif // CRENDERWIDGET_HPP
