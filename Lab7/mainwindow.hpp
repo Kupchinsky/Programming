@@ -45,6 +45,10 @@ private slots:
 
     void on_lineEdit_RelationJ_editingFinished();
 
+    void on_pushButton_Scale_Plus_clicked();
+
+    void on_pushButton_Scale_Minus_clicked();
+
 private:
     Ui::MainWindow *ui;
     GraphDirection addDirection;

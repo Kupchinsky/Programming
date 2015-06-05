@@ -14,10 +14,13 @@ class CRenderWidget : public QWidget
 public:
     explicit CRenderWidget(QWidget *parent = 0);
     Graph *getGraph();
+    void setScale(qreal);
+    qreal getScale() const;
 
 private:
     void drawLineWithArrow(QPainter&, QPoint&, QPoint&, GraphDirection&);
     std::unique_ptr<Graph> graph;
+    qreal scale;
 
 protected:
     void paintEvent(QPaintEvent*);

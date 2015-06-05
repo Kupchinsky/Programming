@@ -34,7 +34,7 @@ void MainWindow::reloadFile()
 void MainWindow::resizeEvent (QResizeEvent*)
 {
     ui->frame->move(ui->paintWidget->x(), this->height() - ui->frame->height() - 10);
-    ui->paintWidget->resize(this->width() - 20, this->height() - ui->frame->height() - ui->paintWidget->x() - 40);
+    ui->paintWidget->resize(this->width() - 20, this->height() - ui->frame->height() - ui->paintWidget->x() - 20);
 }
 
 void MainWindow::on_pushButton_AddNode_clicked()
@@ -165,4 +165,16 @@ QString MainWindow::getDirectionStr(GraphDirection& direction)
 void MainWindow::on_lineEdit_RelationJ_editingFinished()
 {
     this->on_lineEdit_RelationI_editingFinished();
+}
+
+void MainWindow::on_pushButton_Scale_Plus_clicked()
+{
+    this->ui->paintWidget->setScale(this->ui->paintWidget->getScale() + 0.05);
+    this->ui->paintWidget->repaint();
+}
+
+void MainWindow::on_pushButton_Scale_Minus_clicked()
+{
+    this->ui->paintWidget->setScale(this->ui->paintWidget->getScale() - 0.05);
+    this->ui->paintWidget->repaint();
 }

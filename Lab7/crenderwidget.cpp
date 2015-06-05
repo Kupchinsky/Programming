@@ -6,13 +6,23 @@
 #define ArrowSize 10
 
 CRenderWidget::CRenderWidget(QWidget *parent) :
-    QWidget(parent), graph(new Graph())
+    QWidget(parent), graph(new Graph()), scale(1)
 {
 }
 
 Graph* CRenderWidget::getGraph()
 {
     return this->graph.get();
+}
+
+void CRenderWidget::setScale(qreal newScale)
+{
+    this->scale = newScale;
+}
+
+qreal CRenderWidget::getScale() const
+{
+    return scale;
 }
 
 void CRenderWidget::drawLineWithArrow(QPainter& painter, QPoint& pI, QPoint& pJ, GraphDirection& direction)
@@ -53,6 +63,7 @@ void CRenderWidget::paintEvent(QPaintEvent *)
     QPainter painter(this);
 
     painter.save();
+    painter.scale(this->scale, this->scale);
 
     Graph *pgraph = this->graph.get();
     double f = 0;

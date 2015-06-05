@@ -3,7 +3,6 @@
 
 #include <QVector>
 #include <QString>
-#include <QPixmap>
 #include <fstream>
 
 enum GraphDirection
