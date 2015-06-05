@@ -19,6 +19,22 @@ void Graph::clear()
     this->relations.clear();
 }
 
+QString Graph::getDirectionName(GraphDirection& direction, unsigned int i, unsigned int j)
+{
+    QString result;
+
+    if (direction == None)
+        result = "None";
+    else if (direction == Both)
+        result = "Both";
+    else if (direction == iTo_j)
+        result = QString::number(i) + " -> " + QString::number(j);
+    else if (direction == jTo_i)
+        result = QString::number(i) + " <- " + QString::number(j);
+
+    return result;
+}
+
 QString& Graph::visit(unsigned int startNode)
 {
     visitResult = "Start visiting...\n";
@@ -56,7 +72,7 @@ void Graph::visit(unsigned int node, QList<unsigned int>& used)
 
 void Graph::addRelation(unsigned int i, unsigned int j, int weight, GraphDirection direction)
 {
-    if (i == j || !isNodeExists(i))
+    if (i == j || !isNodeExists(i) || !isNodeExists(j))
         return;
 
     bool result;
@@ -70,6 +86,17 @@ void Graph::addRelation(unsigned int i, unsigned int j, int weight, GraphDirecti
     newRel.i = std::min(i, j);
     newRel.j = std::max(i, j);
     newRel.weight = weight;
+
+    if (newRel.i != i && direction != None && direction != Both) // Значения обменялись местами
+    {
+        if (direction == iTo_j)
+            direction = jTo_i;
+        else
+            direction = iTo_j;
+
+        qDebug() << "Direction changed!";
+    }
+
     newRel.direction = direction;
 
     this->relations << newRel;
@@ -196,7 +223,7 @@ void Graph::printRelations()
     while (iter.hasNext())
     {
         GraphRelation rel = iter.next();
-        qDebug() << rel.i << " " << rel.j << " " << rel.weight;
+        qDebug() << rel.i << " " << rel.j << " " << rel.weight << " direction: " << getDirectionName(rel.direction, rel.i, rel.j);
     }
 
     qDebug() << "Nodes:";

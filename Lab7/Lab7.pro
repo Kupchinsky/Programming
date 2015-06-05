@@ -22,3 +22,5 @@ HEADERS  += mainwindow.hpp \
     crenderwidget.hpp
 
 FORMS    += mainwindow.ui
+
+QMAKE_CXXFLAGS += -std=c++11

@@ -50,6 +50,7 @@ private:
     GraphDirection addDirection;
 
     QString getDirectionStr(GraphDirection&);
+    void reloadFile();
 };
 
 #endif // MAINWINDOW_HPP

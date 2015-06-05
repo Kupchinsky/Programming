@@ -27,6 +27,7 @@ class Graph
     QList<unsigned int> nodes;
     QString visitResult;
 
+    QString getDirectionName(GraphDirection&, unsigned int, unsigned int);
     void visit(unsigned int, QList<unsigned int>&);
 public:
     Graph();
