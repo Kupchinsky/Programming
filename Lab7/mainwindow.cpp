@@ -64,7 +64,25 @@ void MainWindow::on_pushButton_Visit_clicked()
 
 void MainWindow::on_pushButton_Algorithm_clicked()
 {
-    //
+    bool ok;
+
+    QInputDialog* inputDialog = new QInputDialog();
+    inputDialog->setOptions(QInputDialog::NoButtons);
+
+    QString startNode = inputDialog->getText(NULL, "", "Введите стартовую вершину:", QLineEdit::Normal, "0", &ok);
+
+    if (!ok)
+        return;
+
+    QString endNode = inputDialog->getText(NULL, "", "Введите конечную вершину:", QLineEdit::Normal, "0", &ok);
+
+    if (!ok)
+        return;
+
+    ui->paintWidget->getGraph()->_dei(startNode.toInt(), endNode.toInt());
+
+    ui->textEdit_Log->append(ui->paintWidget->getGraph()->dei + "\n");
+    //ui->textEdit_Log->append(ui->paintWidget->getGraph()->path + "\n");
 }
 
 void MainWindow::on_pushButton_Clear_clicked()

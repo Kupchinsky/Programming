@@ -71,7 +71,7 @@ void CRenderWidget::paintEvent(QPaintEvent *)
             size = pgraph->size(),
             textr = 9,
             textadjust = 15,
-            r = size * 12,
+            r = size * 14,
             adjustx = (this->width() - 50) * 0.5,
             adjusty = (this->height() - 50) * 0.5;
 

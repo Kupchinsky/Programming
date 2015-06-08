@@ -19,6 +19,95 @@ void Graph::clear()
     this->relations.clear();
 }
 
+void Graph::_dei(unsigned int start, unsigned int end)
+{
+    unsigned int *x,*t,*h;
+    int v;
+    unsigned int count = this->size();
+    x=new unsigned int [count];//h[i] - вершина, предшествующая i-й вершине на кратчайшем пути
+    t=new unsigned int [count];//t[i] - длина кратчайшего пути от вершины s в i
+    h=new unsigned int [count];//пройдена/непройдена вершина
+
+    for (unsigned int i=0; i<count; i++)
+    {
+        t[i]=INT_MAX;
+        x[i]=0;
+    }
+
+    h[start]=0;
+    t[start]=0;
+    x[start]=1;
+    v=start;
+
+    while(1)// Перебираем все вершины, смежные v, и ищем для них кратчайший путь
+    {
+        for (unsigned int i=0; i<count; i++)
+        {
+            bool result;
+            GraphRelation rel = this->getRelation(v, i, &result);
+
+            if (!result)
+            //if(graf[v][i]==0)
+                continue;
+
+            if(x[i]==0 && t[i]>t[v] + rel.weight)
+            {
+                t[i]=t[v]+rel.weight;
+                h[i]=v;
+            }
+        }
+
+        // Ищем из всех длин некратчайших путей самый короткий
+        unsigned int w=INT_MAX;
+        v=-1;
+
+        for(unsigned int i=0; i<count; i++)
+        {
+            if(x[i]==0 && t[i]<w)
+            {
+                v=i;
+                w=t[i];
+            }
+        }
+
+        if(v==-1)
+        {
+            //qDebug()<<"net puti iz " << start+1 <<" v " << end+1;
+            dei+="Нет пути из ";
+            dei+=QString::number(start+1);
+            dei+=" в ";
+            dei+=QString::number(end+1);
+            break;
+        }
+
+        if(v==end)
+        {
+            //qDebug()<<"Put iz " << start+1 <<" v " << end+1 << ": ";
+            dei+="Путь из ";
+            dei+=QString::number(start+1);
+            dei+=" в ";
+            dei+=QString::number(end+1);
+            dei+=": ";
+            unsigned int u =end;
+            while(u!=start)
+            {
+                //qDebug() << " " << u+1;
+                path+=QString::number(u+1);
+                path+=" ";
+                u=h[u];
+            }
+            //qDebug() << " " << start+1 <<". Dlina puti - " << t[end];
+
+            path+=QString::number(start+1);
+            dei+=path;
+            dei+=": Длина пути - ";
+            dei+=QString::number(t[end]);
+            break;
+        }
+        x[v]=1;
+    }
+}
+
 QString Graph::getDirectionName(GraphDirection& direction, unsigned int i, unsigned int j)
 {
     QString result;

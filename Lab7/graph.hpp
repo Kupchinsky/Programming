@@ -31,12 +31,14 @@ class Graph
 public:
     Graph();
     ~Graph();
+    QString dei,path;
 
     void delRelation(unsigned int, unsigned int);
     void addRelation(unsigned int, unsigned int, int, GraphDirection);
     void addNode(unsigned int);
     void delNode(unsigned int);
     QString& visit(unsigned int);
+    void _dei(unsigned int, unsigned int);
 
     unsigned int size();
     bool isRelationsExists(unsigned int);
